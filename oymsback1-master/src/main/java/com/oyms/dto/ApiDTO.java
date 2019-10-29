@@ -14,7 +14,7 @@ public class ApiDTO<T> {
 	private String message;// 消息
 	private Object result;// 数据对象
 	private List<T> data;// 数据
-
+    private String token;
 	/**
 	 * 无参构造器
 	 */

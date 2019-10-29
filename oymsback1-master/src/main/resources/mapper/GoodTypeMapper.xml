@@ -302,8 +302,4 @@
       order by ${orderByClause}
     </if>
   </select>
-     <!-- 查找所有商品类型 -->
-    <select id="findAllType" resultMap="BaseResultMap">
-    select * from goodtype where isDelete =0 order by good_type
-  </select>
 </mapper>

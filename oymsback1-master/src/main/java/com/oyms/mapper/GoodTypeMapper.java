@@ -102,6 +102,4 @@ public interface GoodTypeMapper {
      * @mbg.generated Mon Oct 28 16:48:09 CST 2019
      */
     int updateByPrimaryKey(GoodType record);
-
-	List<GoodType> findAllType();
 }

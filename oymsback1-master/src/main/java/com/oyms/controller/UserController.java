@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.oyms.dto.ApiDTO;
 import com.oyms.model.User;
-import com.oyms.service.TokenService;
 import com.oyms.service.UserService;
+import com.oyms.util.GetAndCheckToken;
 
 @RestController
 @CrossOrigin
@@ -25,9 +25,7 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private ApiDTO<?> apiDTO;
-	@Autowired
-	private TokenService tokenService;
-
+	
 	@PostMapping("/register")
 	public ApiDTO<?> userRegister(@RequestBody JSONObject jsonObject) {
 		String userName = jsonObject.getString("userName");
@@ -59,8 +57,10 @@ public class UserController {
 		user.setUsername(userName);
 		user.setUserpassword(userPassword);
 		if (userService.checkForLogin(userName, userPassword)) {
+			String token = GetAndCheckToken.getToken(userName);
 			apiDTO.setIsSuccess(true);
 			apiDTO.setCode(200);
+			apiDTO.setToken(token);
 			apiDTO.setMessage(userService.getUserImg(userName));
 		} else {
 			apiDTO.setIsSuccess(false);

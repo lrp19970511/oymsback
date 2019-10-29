@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50727
 File Encoding         : 65001
 
-Date: 2019-10-28 17:23:45
+Date: 2019-10-29 17:34:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,7 @@ CREATE TABLE `goods` (
   `isDelete` tinyint(4) DEFAULT '0',
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of goods
@@ -44,6 +44,11 @@ INSERT INTO `goods` VALUES ('42', '等等', '女装', '1', '1', '发', 'http://l
 INSERT INTO `goods` VALUES ('43', 'd', '女装', '1', '1', '', '', '0', '2019-10-28 16:52:25');
 INSERT INTO `goods` VALUES ('44', 'd', '女装', '2', '2', '', '', '0', '2019-10-28 16:54:24');
 INSERT INTO `goods` VALUES ('45', 'd', '女装', '1', '1', '', '', '0', '2019-10-28 16:54:47');
+INSERT INTO `goods` VALUES ('46', 'rrr', '女装', '2', '2', '', '', '0', '2019-10-29 08:55:37');
+INSERT INTO `goods` VALUES ('47', 'dd', '女装', '1', '1', '', '', '0', '2019-10-29 10:06:23');
+INSERT INTO `goods` VALUES ('48', 'f', '女装', '1', '1', '', 'http://lrplt.cn-bj.ufileos.com/1b0d60a5-63a4-4c90-a6c4-4e07e588e18a.png?UCloudPublicKey=TOKEN_2e336c63-c95d-4ea9-b750-e8342bcd185f&Signature=LhmwUoY%2BuqiBuXDh9FuHI40keRk%3D&Expires=1887677061', '0', '2019-10-29 10:46:39');
+INSERT INTO `goods` VALUES ('49', 'd', '女装', '1', '1', '', '', '0', '2019-10-29 14:44:18');
+INSERT INTO `goods` VALUES ('50', '1', '女装', '1', '1', '', '', '0', '2019-10-29 16:18:54');
 
 -- ----------------------------
 -- Table structure for `goodtype`
@@ -56,7 +61,7 @@ CREATE TABLE `goodtype` (
   `isdelete` tinyint(4) NOT NULL DEFAULT '0',
   `create_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of goodtype
@@ -73,6 +78,27 @@ INSERT INTO `goodtype` VALUES ('9', '帽子', 'fff', '0', null);
 INSERT INTO `goodtype` VALUES ('10', '帽子', 'dd', '0', null);
 INSERT INTO `goodtype` VALUES ('11', '衣服', 'dddd', '0', null);
 INSERT INTO `goodtype` VALUES ('12', '衣服', 'd', '0', '2019-10-28 16:54:53');
+INSERT INTO `goodtype` VALUES ('13', '鞋子', 'ff', '0', '2019-10-29 08:55:49');
+INSERT INTO `goodtype` VALUES ('14', '鞋子', 'f', '0', '2019-10-29 08:56:15');
+INSERT INTO `goodtype` VALUES ('15', '鞋子', 'f', '0', '2019-10-29 08:56:58');
+INSERT INTO `goodtype` VALUES ('16', '衣服', 'fg', '0', '2019-10-29 08:57:03');
+
+-- ----------------------------
+-- Table structure for `role`
+-- ----------------------------
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES ('1', '超级管理员');
+INSERT INTO `role` VALUES ('2', '普通管理员');
+INSERT INTO `role` VALUES ('3', '普通用户');
 
 -- ----------------------------
 -- Table structure for `user`
@@ -85,7 +111,7 @@ CREATE TABLE `user` (
   `userImg` varchar(255) DEFAULT NULL,
   `createTime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
@@ -94,6 +120,7 @@ INSERT INTO `user` VALUES ('6', 'admin', '12345678', 'http://lrplt.cn-bj.ufileos
 INSERT INTO `user` VALUES ('7', 'admi', '12345678', '', '2019-10-26 00:00:00');
 INSERT INTO `user` VALUES ('8', 'adm', '12345678', 'http://lrplt.cn-bj.ufileos.com/ed0a5cf2-5022-4f50-a3d5-9903145861c4.png?UCloudPublicKey=TOKEN_2e336c63-c95d-4ea9-b750-e8342bcd185f&Signature=GE9hnm6sKs719BFBjaSPj1FCkOk%3D&Expires=1887420065', '2019-10-26 00:00:00');
 INSERT INTO `user` VALUES ('9', 'fff', '12345678', '', '2019-10-28 16:50:54');
-INSERT INTO `user` VALUES ('10', 'fff', '12345678', '', '2019-10-28 16:50:54');
 INSERT INTO `user` VALUES ('11', '12345', '12345678', '', '2019-10-28 16:51:36');
 INSERT INTO `user` VALUES ('12', '12357', '12345678', '', '2019-10-28 16:52:02');
+INSERT INTO `user` VALUES ('13', 'admi1', '12345678', '', '2019-10-29 09:10:50');
+INSERT INTO `user` VALUES ('14', 'adm1', '12345678', '', '2019-10-29 09:12:49');

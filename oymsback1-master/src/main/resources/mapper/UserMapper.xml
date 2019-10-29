@@ -302,25 +302,4 @@
       order by ${orderByClause}
     </if>
   </select>
- <!-- 判断用户名存不存在 -->
-    <select id="selectByName" parameterType="java.lang.String" resultType="java.lang.Boolean">
-    select
-    count(1)
-    from user
-    where userName = #{userName,jdbcType=VARCHAR}
-  </select>
-   <!-- 判断登录成功 -->
-<select id="selectForLogin" parameterType="java.util.Map" resultType="java.lang.Boolean">
-    select
-    count(1)
-    from user
-    where userName = #{userName,jdbcType=VARCHAR} and userPassword = #{userPassword,jdbcType=VARCHAR}
-  </select>
-  <!-- 获取用户头像 -->
-  <select id="getUserImg" parameterType="java.lang.String" resultType="java.lang.String">
-    select
-    userImg
-    from user
-    where userName = #{UserName,jdbcType=VARCHAR}
-  </select>
 </mapper>

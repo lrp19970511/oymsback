@@ -103,9 +103,4 @@ public interface UserMapper {
      */
     int updateByPrimaryKey(User record);
 
-	boolean selectForLogin(String userName, String userPassword);
-
-	String getUserImg(String userName);
-
-	boolean selectByName(String userName);
 }

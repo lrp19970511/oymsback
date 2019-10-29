@@ -1,6 +1,5 @@
 package com.oyms.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +51,7 @@ public class GoodsController {
 		goods.setGooddesc(gooddesc);
 		goods.setIsdelete((byte) 0);
 		goods.setCreateTime(nowTime);
+		System.err.println(id);
 		if (id == null || id.toString() == "") {
 			try {
 				goodsService.addGoods(goods);
@@ -91,7 +91,6 @@ public class GoodsController {
 
 	@GetMapping("/isdelete")
 	public ApiDTO<?> deleteOneGood(@RequestParam(value = "goodId", required = true) Long id) {
-		System.err.println(id);
 		if (goodsService.deleteOneGood(id) > 0) {
 			apiDTO.setIsSuccess(true);
 		} else {
@@ -100,7 +99,19 @@ public class GoodsController {
 		return apiDTO;
 	}
 
-	//商品类型控制
+//	批量删除
+	@PostMapping("/mutidelete")
+	public ApiDTO<?> deleteList(@RequestBody JSONObject jsonObject) {
+		String deleteGoodsList = jsonObject.getString("deleteIdList");
+		if (goodsService.deleteList(deleteGoodsList) > 0) {
+			apiDTO.setIsSuccess(true);
+			return apiDTO;
+		}
+		apiDTO.setIsSuccess(false);
+		return apiDTO;
+	}
+
+	// 商品类型控制
 	@PostMapping("/addType")
 	public ApiDTO<?> addType(@RequestBody JSONObject jsonObject) {
 		String goodTypeName = jsonObject.getString("goodType");

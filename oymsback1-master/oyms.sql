@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50727
+Source Server         : localhost_3306
+Source Server Version : 50726
 Source Host           : localhost:3306
 Source Database       : oyms
 
 Target Server Type    : MYSQL
-Target Server Version : 50727
+Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2019-10-29 17:34:43
+Date: 2019-10-30 02:25:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -56,32 +56,45 @@ INSERT INTO `goods` VALUES ('50', '1', '女装', '1', '1', '', '', '0', '2019-10
 DROP TABLE IF EXISTS `goodtype`;
 CREATE TABLE `goodtype` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
-  `good_type` varchar(255) NOT NULL,
-  `sub_type` varchar(255) NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `cname` varchar(255) NOT NULL,
   `isdelete` tinyint(4) NOT NULL DEFAULT '0',
   `create_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parent_id`),
+  CONSTRAINT `goodtype_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `parenttype` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of goodtype
 -- ----------------------------
-INSERT INTO `goodtype` VALUES ('1', '衣服', '发', '1', null);
-INSERT INTO `goodtype` VALUES ('2', '衣服', '发', '1', null);
-INSERT INTO `goodtype` VALUES ('3', '帆帆帆帆', '多大', '1', null);
-INSERT INTO `goodtype` VALUES ('4', '实打实打算', '阿凡达实打实', '1', null);
-INSERT INTO `goodtype` VALUES ('5', '衣服', '衬衫', '0', null);
-INSERT INTO `goodtype` VALUES ('6', '衣服', 'dd', '0', null);
-INSERT INTO `goodtype` VALUES ('7', '衣服', 'ddss', '0', null);
-INSERT INTO `goodtype` VALUES ('8', '衣服', 'ddssg', '0', null);
-INSERT INTO `goodtype` VALUES ('9', '帽子', 'fff', '0', null);
-INSERT INTO `goodtype` VALUES ('10', '帽子', 'dd', '0', null);
-INSERT INTO `goodtype` VALUES ('11', '衣服', 'dddd', '0', null);
-INSERT INTO `goodtype` VALUES ('12', '衣服', 'd', '0', '2019-10-28 16:54:53');
-INSERT INTO `goodtype` VALUES ('13', '鞋子', 'ff', '0', '2019-10-29 08:55:49');
-INSERT INTO `goodtype` VALUES ('14', '鞋子', 'f', '0', '2019-10-29 08:56:15');
-INSERT INTO `goodtype` VALUES ('15', '鞋子', 'f', '0', '2019-10-29 08:56:58');
-INSERT INTO `goodtype` VALUES ('16', '衣服', 'fg', '0', '2019-10-29 08:57:03');
+INSERT INTO `goodtype` VALUES ('19', '8', 'dd', '0', '2019-10-30 01:43:04');
+INSERT INTO `goodtype` VALUES ('20', '1', '发', '0', '2019-10-30 01:46:31');
+INSERT INTO `goodtype` VALUES ('21', '1', '发给', '0', '2019-10-30 01:46:40');
+INSERT INTO `goodtype` VALUES ('22', '9', 'f\'d\'d', '0', '2019-10-30 02:23:01');
+
+-- ----------------------------
+-- Table structure for `parenttype`
+-- ----------------------------
+DROP TABLE IF EXISTS `parenttype`;
+CREATE TABLE `parenttype` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `pname` varchar(255) NOT NULL,
+  `isdelete` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `pname` (`pname`) USING HASH
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of parenttype
+-- ----------------------------
+INSERT INTO `parenttype` VALUES ('1', '衣服', '0');
+INSERT INTO `parenttype` VALUES ('2', '帽子', '0');
+INSERT INTO `parenttype` VALUES ('3', '鞋子', '0');
+INSERT INTO `parenttype` VALUES ('5', 'ddd', '0');
+INSERT INTO `parenttype` VALUES ('6', 'sss', '0');
+INSERT INTO `parenttype` VALUES ('8', '方法', '0');
+INSERT INTO `parenttype` VALUES ('9', '分发给', '0');
 
 -- ----------------------------
 -- Table structure for `role`

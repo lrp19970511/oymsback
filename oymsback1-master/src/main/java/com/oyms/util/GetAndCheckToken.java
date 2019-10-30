@@ -16,33 +16,33 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class GetAndCheckToken {
 	final static String base64EncodedSecretKey = "lrp19970511";
-	final static long TOKEN_EXP = 5*60*1000;
-	
+	final static long TOKEN_EXP = 5000*60*60;
+
 	public static String getToken(String userName) {
-		 
-		return Jwts.builder()
-				.setSubject(userName)
-				.claim("roles", "user")
-				.setIssuedAt(new Date())
-			 	.setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXP))
-				.signWith(SignatureAlgorithm.HS256, base64EncodedSecretKey)
-				.compact();
-}
-	
+
+		return Jwts.builder().setSubject(userName).claim("roles", "user").setIssuedAt(new Date())
+				.setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXP))
+				.signWith(SignatureAlgorithm.HS256, base64EncodedSecretKey).compact();
+	}
+
 	/**
-	* 检查token,只要不正确就会抛出异常
-	 * @throws UserLoginException 
-	 * @throws UserLoginInvalidException 
-	**/
-	 
+	 * 检查token,只要不正确就会抛出异常
+	 * 
+	 * @throws UserLoginException
+	 * @throws UserLoginInvalidException
+	 **/
+
 	public static Claims checkToken(String token) throws ServletException {
 		try {
 			final Claims claims = Jwts.parser().setSigningKey(base64EncodedSecretKey).parseClaimsJws(token).getBody();
 			return claims;
 		} catch (ExpiredJwtException e1) {
-			throw new ApiException("登录信息过期，请重新登录",602);
+			//token过期
+			JWTInterceptor.statusCode=601;
+			return null;
 		} catch (Exception e) {
-			throw new ApiException("用户未登录，请重新登录",601);
+			JWTInterceptor.statusCode=600;
+			return null;
 		}
-		}
+	}
 }

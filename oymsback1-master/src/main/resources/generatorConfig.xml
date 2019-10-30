@@ -31,8 +31,9 @@
 			targetPackage="com.oyms.mapper" targetProject="src/main/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		<table tableName="user" domainObjectName="User"></table>
-		<table tableName="goods" domainObjectName="Goods"></table>
+		<table tableName="role" domainObjectName="Role"></table>
 		<table tableName="goodtype" domainObjectName="GoodType"></table>
+		<table tableName="parentType" domainObjectName="ParentType"></table>
+		
 	</context>
 </generatorConfiguration>

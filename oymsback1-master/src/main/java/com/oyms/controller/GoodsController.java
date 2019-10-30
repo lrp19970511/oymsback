@@ -1,6 +1,7 @@
 package com.oyms.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.oyms.dto.ApiDTO;
 import com.oyms.model.GoodType;
 import com.oyms.model.Goods;
+import com.oyms.model.ParentType;
 import com.oyms.service.GoodsService;
 
 @RestController
@@ -31,10 +33,13 @@ public class GoodsController {
 	private ApiDTO<GoodType> apiDTO2;
 	@Autowired
 	private GoodType goodType;
+	@Autowired
+	private ParentType parentType;
 
 	// 商品管理控制
 	@PostMapping("/add")
 	public ApiDTO<Goods> addGoods(@RequestBody JSONObject jsonObject) {
+
 		String goodName = jsonObject.getString("goodName");
 		String goodtype = jsonObject.getString("goodtype");
 		Float goodprice = jsonObject.getFloat("goodprice");
@@ -112,37 +117,37 @@ public class GoodsController {
 	}
 
 	// 商品类型控制
+	// 添加商品类型
 	@PostMapping("/addType")
 	public ApiDTO<?> addType(@RequestBody JSONObject jsonObject) {
-		String goodTypeName = jsonObject.getString("goodType");
-		String subType = jsonObject.getString("subType");
-		Date nowTime = new Date(System.currentTimeMillis());
-		goodType.setGoodType(goodTypeName);
-		goodType.setSubType(subType);
-		goodType.setIsdelete((byte) 0);
-		goodType.setCreateTime(nowTime);
-		try {
-			goodsService.addType(goodType);
-			apiDTO.setIsSuccess(true);
-			return apiDTO;
-		} catch (Exception e) {
-			// TODO: handle exception
+		String cname = jsonObject.getString("goodType");
+		String pname = jsonObject.getString("parentType");
+		if (pname != null && pname != "") {
+			parentType.setPname(pname);
+			parentType.setIsdelete((byte) 0);
+			Integer pnameId = goodsService.addParentType(parentType);
+			Date nowTime = new Date(System.currentTimeMillis());
+			if (pnameId != null) {
+				goodType.setCname(cname);
+				goodType.setParentId(pnameId);
+				goodType.setCreateTime(nowTime);
+				goodType.setIsdelete((byte) 0);
+				if (goodsService.addGoodType(goodType) > 0) {
+					apiDTO.setIsSuccess(true);
+					return apiDTO;
+				}
+			}
 		}
 		apiDTO.setIsSuccess(false);
 		return apiDTO;
+
 	}
 
 	@GetMapping("/showType")
 	public ApiDTO<GoodType> showGoodType() {
-		try {
-			apiDTO2.setIsSuccess(true);
-			apiDTO2.setData(goodsService.getGoodTypes());
-			return apiDTO2;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		apiDTO2.setIsSuccess(false);
-
-		return null;
+		List<GoodType> goodTypeList = goodsService.getParentList();
+		apiDTO2.setData(goodTypeList);
+		apiDTO2.setIsSuccess(true);
+		return apiDTO2;
 	}
 }

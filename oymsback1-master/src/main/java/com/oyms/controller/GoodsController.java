@@ -38,26 +38,11 @@ public class GoodsController {
 
 	// 商品管理控制
 	@PostMapping("/add")
-	public ApiDTO<Goods> addGoods(@RequestBody JSONObject jsonObject) {
-
-		String goodName = jsonObject.getString("goodName");
-		String goodtype = jsonObject.getString("goodtype");
-		Float goodprice = jsonObject.getFloat("goodprice");
-		Long goodnum = jsonObject.getLong("goodnum");
-		String gooddesc = jsonObject.getString("gooddesc");
-		String goodImgUrl = jsonObject.getString("goodImgUrl");
+	public ApiDTO<Goods> addGoods(Goods goods, Long modifyId) {
 		Date nowTime = new Date(System.currentTimeMillis());
-		Long id = jsonObject.getLong("modifyId");
-		goods.setGoodname(goodName);
-		goods.setGoodtype(goodtype);
-		goods.setGoodprice(goodprice);
-		goods.setGoodimgurl(goodImgUrl);
-		goods.setGoodnum(goodnum);
-		goods.setGooddesc(gooddesc);
 		goods.setIsdelete((byte) 0);
 		goods.setCreateTime(nowTime);
-		System.err.println(id);
-		if (id == null || id.toString() == "") {
+		if (modifyId == null || modifyId.toString() == "") {
 			try {
 				goodsService.addGoods(goods);
 				apiDTO.setIsSuccess(true);
@@ -67,7 +52,7 @@ public class GoodsController {
 			}
 		} else {
 			try {
-				goods.setId(id);
+				goods.setId(modifyId);
 				if (goodsService.modifyOneGood(goods) > 0) {
 					apiDTO.setIsSuccess(true);
 				}
@@ -94,8 +79,9 @@ public class GoodsController {
 		return null;
 	}
 
+//删除一个商品
 	@GetMapping("/isdelete")
-	public ApiDTO<?> deleteOneGood(@RequestParam(value = "goodId", required = true) Long id) {
+	public ApiDTO<?> deleteOneGood(Long id) {
 		if (goodsService.deleteOneGood(id) > 0) {
 			apiDTO.setIsSuccess(true);
 		} else {
@@ -119,16 +105,14 @@ public class GoodsController {
 	// 商品类型控制
 	// 添加商品类型
 	@PostMapping("/addType")
-	public ApiDTO<?> addType(@RequestBody JSONObject jsonObject) {
-		String cname = jsonObject.getString("goodType");
-		String pname = jsonObject.getString("parentType");
-		if (pname != null && pname != "") {
-			parentType.setPname(pname);
+	public ApiDTO<?> addType(GoodType goodType) {
+		if (goodType.getPname() != null && goodType.getPname() != "") {
+			parentType.setPname(goodType.getPname());
 			parentType.setIsdelete((byte) 0);
 			Integer pnameId = goodsService.addParentType(parentType);
 			Date nowTime = new Date(System.currentTimeMillis());
 			if (pnameId != null) {
-				goodType.setCname(cname);
+				goodType.setCname(goodType.getCname());
 				goodType.setParentId(pnameId);
 				goodType.setCreateTime(nowTime);
 				goodType.setIsdelete((byte) 0);
@@ -143,11 +127,23 @@ public class GoodsController {
 
 	}
 
+//获取商品类型列表
 	@GetMapping("/showType")
 	public ApiDTO<GoodType> showGoodType() {
 		List<GoodType> goodTypeList = goodsService.getParentList();
 		apiDTO2.setData(goodTypeList);
 		apiDTO2.setIsSuccess(true);
 		return apiDTO2;
+	}
+
+	// 删除商品列表
+	@GetMapping("/goodTypedelete")
+	public ApiDTO<?> deleteGoodType(Integer goodTypeId) {
+		if (goodsService.deleteGoodType(goodTypeId) > 0) {
+			apiDTO.setIsSuccess(true);
+		} else {
+			apiDTO.setIsSuccess(false);
+		}
+		return apiDTO;
 	}
 }

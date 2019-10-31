@@ -58,5 +58,17 @@ public class UserService {
 			return null;
 		}
 	}
-	
+	//获取登录用户的roleId
+	public Integer getUserRoleId(String username) {
+		// TODO Auto-generated method stub
+		UserExample userExample = new UserExample();
+		Criteria criteria =userExample.createCriteria();
+		criteria.andUsernameEqualTo(username);
+		List<User> user= userMapper.selectByExample(userExample);
+		if(user.size()>0) {
+			   return user.get(0).getRoleId();
+			}else {
+				return null;
+			}
+	}
 }

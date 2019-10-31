@@ -6,8 +6,6 @@ import javax.servlet.ServletException;
 
 import org.springframework.stereotype.Service;
 
-import com.oyms.exception.ApiException;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -16,11 +14,11 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Service
 public class GetAndCheckToken {
 	final static String base64EncodedSecretKey = "lrp19970511";
-	final static long TOKEN_EXP = 5000*60*60;
+	final static long TOKEN_EXP = 1000 * 60 * 60;
 
-	public static String getToken(String userName) {
+	public static String getToken(String userName,Integer roleId) {
 
-		return Jwts.builder().setSubject(userName).claim("roles", "user").setIssuedAt(new Date())
+		return Jwts.builder().setSubject(userName).claim("roles", roleId).setIssuedAt(new Date())
 				.setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXP))
 				.signWith(SignatureAlgorithm.HS256, base64EncodedSecretKey).compact();
 	}
@@ -37,11 +35,11 @@ public class GetAndCheckToken {
 			final Claims claims = Jwts.parser().setSigningKey(base64EncodedSecretKey).parseClaimsJws(token).getBody();
 			return claims;
 		} catch (ExpiredJwtException e1) {
-			//token过期
-			JWTInterceptor.statusCode=601;
+			// token过期
+			JWTInterceptor.statusCode = 601;
 			return null;
 		} catch (Exception e) {
-			JWTInterceptor.statusCode=600;
+			JWTInterceptor.statusCode = 600;
 			return null;
 		}
 	}

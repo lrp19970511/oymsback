@@ -27,6 +27,7 @@ public class GoodsService {
 	private ParentTypeMapper parentTypeMapper;
 	@Autowired
 	private GoodTypeExMapper goodTypeExMapper;
+
 	// 商品管理方法
 	public void addGoods(Goods goods) {
 		goodsMapper.insert(goods);
@@ -78,7 +79,7 @@ public class GoodsService {
 	}
 
 	// 商品类型管理方法
-//添加父类型
+    //添加父类型
 	public Integer addParentType(ParentType parentType) {
 		Integer pnameID = null;
 		if (parentType != null) {
@@ -122,5 +123,13 @@ public class GoodsService {
 		// TODO Auto-generated method stub
 		List<GoodType> b = goodTypeExMapper.getParentList();
 		return b;
+	}
+
+//删除子类型
+	public int deleteGoodType(Integer id) {
+		GoodType goodType = new GoodType();
+		goodType.setId(id);
+		goodType.setIsdelete((byte) 1);
+		return goodTypeMapper.updateByPrimaryKeySelective(goodType);
 	}
 }

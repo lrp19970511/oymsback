@@ -79,7 +79,7 @@ public class GoodsService {
 	}
 
 	// 商品类型管理方法
-    //添加父类型
+	// 添加父类型
 	public Integer addParentType(ParentType parentType) {
 		Integer pnameID = null;
 		if (parentType != null) {
@@ -110,19 +110,20 @@ public class GoodsService {
 	}
 
 //获取类型列表
-	public List<GoodType> getGoodTypes() {
-		GoodTypeExample goodstypExample = new GoodTypeExample();
-		com.oyms.model.GoodTypeExample.Criteria criteria = goodstypExample.createCriteria();
-		goodstypExample.setOrderByClause("good_type asc");
-		criteria.andIsdeleteNotEqualTo((byte) 1);
-		List<GoodType> getData = goodTypeMapper.selectByExample(goodstypExample);
-		return getData;
+	public List<GoodType> getGoodTypeList() {
+		// TODO Auto-generated method stub
+		List<GoodType> b = goodTypeExMapper.getGoogTypeList();
+		return b;
 	}
 
-	public List<GoodType> getParentList() {
-		// TODO Auto-generated method stub
-		List<GoodType> b = goodTypeExMapper.getParentList();
-		return b;
+//获取父类型列表
+	public List<ParentType> getParentTypeList() {
+		ParentTypeExample parentTypeExample = new ParentTypeExample();
+		com.oyms.model.ParentTypeExample.Criteria criteria = parentTypeExample.createCriteria();
+		criteria.andIsdeleteNotEqualTo((byte) 1);
+		parentTypeExample.setOrderByClause(null);
+		List<ParentType> getParentTypes = parentTypeMapper.selectByExample(parentTypeExample);
+		return getParentTypes;
 	}
 
 //删除子类型

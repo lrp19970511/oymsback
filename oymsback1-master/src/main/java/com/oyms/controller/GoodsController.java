@@ -1,7 +1,9 @@
 package com.oyms.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -31,6 +33,8 @@ public class GoodsController {
 	private ApiDTO<Goods> apiDTO;
 	@Autowired
 	private ApiDTO<GoodType> apiDTO2;
+	@Autowired
+	private ApiDTO<ParentType> apiDTO3;
 	@Autowired
 	private GoodType goodType;
 	@Autowired
@@ -130,8 +134,10 @@ public class GoodsController {
 //获取商品类型列表
 	@GetMapping("/showType")
 	public ApiDTO<GoodType> showGoodType() {
-		List<GoodType> goodTypeList = goodsService.getParentList();
+		List<GoodType> goodTypeList = goodsService.getGoodTypeList();
+		List<ParentType> parentTypeList = goodsService.getParentTypeList(); //获取父类型列表	
 		apiDTO2.setData(goodTypeList);
+		apiDTO3.setData2(parentTypeList);
 		apiDTO2.setIsSuccess(true);
 		return apiDTO2;
 	}

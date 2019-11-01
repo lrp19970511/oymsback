@@ -15,6 +15,7 @@ public class ApiDTO<T> {
 	private Object result;// 数据对象
 	private List<T> data;// 数据
     private String token;
+	private List<T> data2;
 	/**
 	 * 无参构造器
 	 */
@@ -46,6 +47,12 @@ public class ApiDTO<T> {
 		super();
 		this.isSuccess = success;
 		this.data = data;
+	}
+	public ApiDTO(Boolean success, List<T> data,List<T> data2) {
+		super();
+		this.isSuccess = success;
+		this.data = data;
+		this.data2 = data2;
 	}
 
 	/**

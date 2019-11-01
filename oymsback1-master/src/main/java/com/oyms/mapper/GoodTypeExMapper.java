@@ -10,5 +10,5 @@ import com.oyms.model.GoodType;
 @Mapper
 public interface GoodTypeExMapper {
 	@Select("SELECT * from goodtype INNER JOIN parenttype ON goodtype.parent_id = parenttype.id AND goodtype.isdelete = 0 ORDER BY parenttype.pname ASC")
-	List<GoodType> getParentList();
+	List<GoodType> getGoogTypeList();
 }

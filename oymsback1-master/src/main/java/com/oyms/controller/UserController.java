@@ -66,27 +66,32 @@ public class UserController {
 		}
 		return apiDTO;
 	}
+	//判断用户权限,code700为超级管理员，701为普通管理员，702为普通用户
 	@GetMapping("/getRoleId")
 	public ApiDTO<?> getRoleId(String token) throws ServletException{
 		ApiDTO<Object> apiDTO2 =new ApiDTO<Object>();
 		Claims claims = GetAndCheckToken.checkToken(token);
 		Integer roleId =(Integer) claims.get("roles");
-		if(roleId == null ) {
+		if(roleId == null) {
 			apiDTO2.setIsSuccess(false);
-			apiDTO2.setCode(700);
+			apiDTO2.setCode(702);
 			apiDTO2.setMessage("你没有权限进行此操作");
+			return apiDTO2;
+		}else if(roleId == 1) {
+			apiDTO2.setIsSuccess(true);
+			apiDTO2.setCode(700);
 			return apiDTO2;
 		}
-		else if(roleId != 1 && roleId !=2 ) {
-			System.err.println(roleId);
-			apiDTO2.setIsSuccess(false);
-			apiDTO2.setCode(700);
-			apiDTO2.setMessage("你没有权限进行此操作");
+		else if(roleId == 2 ) {
+			apiDTO2.setIsSuccess(true);
+			apiDTO2.setCode(701);
 			return apiDTO2;
 		}else {
-		apiDTO2.setCode(100);
-		apiDTO2.setIsSuccess(true);
+		apiDTO2.setCode(702);
+		apiDTO2.setIsSuccess(false);
+		apiDTO2.setMessage("你没有权限进行此操作");
 		return apiDTO2;
 		}
 	}
+
 }
